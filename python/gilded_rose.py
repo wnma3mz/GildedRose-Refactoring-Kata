@@ -10,19 +10,28 @@ class GildedRose(object):
             self.update_single_item(item)
 
     def update_single_item(self, item):
-        if item.name != "Aged Brie" and item.name != "Backstage passes":
-            self.des_one(item)
-        else:
-            self.inc_fifty(item)
         if item.name == "Backstage passes":
+            self.inc_fifty(item)
             if item.sell_in < 11:
                 GildedRose.inc_fifty(item)
             if item.sell_in < 6:
                 GildedRose.inc_fifty(item)
-        if item.name != "Sulfuras":
             item.sell_in = item.sell_in - 1
             if item.sell_in < 0:
                 self.bottom_func(item)
+        elif item.name == "Aged Brie":
+            self.inc_fifty(item)
+            item.sell_in = item.sell_in - 1
+            if item.sell_in < 0:
+                self.bottom_func(item)
+        elif item.name == "Sulfuras":
+            self.des_one(item)
+        else:
+            self.des_one(item)
+            item.sell_in = item.sell_in - 1
+            if item.sell_in < 0:
+                self.bottom_func(item)
+        return
 
     @staticmethod
     def des_one(item):
