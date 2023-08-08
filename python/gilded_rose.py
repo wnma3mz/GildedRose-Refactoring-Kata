@@ -11,32 +11,36 @@ class GildedRose(object):
 
     def update_single_item(self, item):
         if item.name == "Backstage passes":
-            self.inc_fifty(item)
-            if item.sell_in < 11:
-                GildedRose.inc_fifty(item)
-            if item.sell_in < 6:
-                GildedRose.inc_fifty(item)
-            item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                self.bottom_func(item)
+            self.do_backstage(item)
         elif item.name == "Aged Brie":
-            self.inc_fifty(item)
-            item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                self.bottom_func(item)
+            self.do_aged(item)
         elif item.name == "Sulfuras":
-            self.des_one(item)
+            pass
         else:
-            self.des_one(item)
-            item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                self.bottom_func(item)
-        return
+            self.do_general(item)
 
-    @staticmethod
-    def des_one(item):
-        if item.quality > 0 and item.name != "Sulfuras":
+    def do_general(self, item):
+        if item.quality > 0:
             item.quality = item.quality - 1
+        item.sell_in = item.sell_in - 1
+        if item.sell_in < 0 < item.quality:
+            item.quality = item.quality - 1
+
+    def do_aged(self, item):
+        self.inc_fifty(item)
+        item.sell_in = item.sell_in - 1
+        if item.sell_in < 0:
+            self.inc_fifty(item)
+
+    def do_backstage(self, item):
+        self.inc_fifty(item)
+        if item.sell_in < 11:
+            self.inc_fifty(item)
+        if item.sell_in < 6:
+            self.inc_fifty(item)
+        item.sell_in = item.sell_in - 1
+        if item.sell_in < 0:
+            item.quality = 0
 
 
     @staticmethod
@@ -44,15 +48,6 @@ class GildedRose(object):
         if item.quality < 50:
             item.quality = item.quality + 1
 
-    @staticmethod
-    def bottom_func(item):
-        if item.name != "Aged Brie":
-            if item.name != "Backstage passes":
-                GildedRose.des_one(item)
-            else:
-                item.quality = 0
-        else:
-            GildedRose.inc_fifty(item)
 
     def update_quality(self):
         for item in self.items:
