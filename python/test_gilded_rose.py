@@ -33,7 +33,7 @@ class GildedRoseTest(unittest.TestCase):
     def test_all(self):
         items_ori, items_ans = self.generate_examples()
         gilded_rose = GildedRose(items_ori)
-        gilded_rose.update_quality()
+        gilded_rose.update_quality_new()
         for item_o, item_n in zip(items_ori, items_ans):
             self.assertEqual(item_o.quality, item_n.quality)
 
