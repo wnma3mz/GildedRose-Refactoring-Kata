@@ -22,8 +22,8 @@ class GildedRoseTest(unittest.TestCase):
 
     def generate_examples(self) -> tuple[list[Item], list[Item]]:
         name_lst = ["foo", "Aged Brie", "Sulfuras", "Backstage passes"]
-        sell_in_lst = [-1, 0, 1, 5, 10]
-        quality_lst = [-1, 0, 1, 5, 10]
+        sell_in_lst = [-1, 0, 1, 5, 10, 15]
+        quality_lst = [-1, 0, 1, 5, 10, 15]
         items = self.generate_grid_items(name_lst, sell_in_lst, quality_lst)
         items_ori = copy.deepcopy(items)
         gilded_rose = GildedRose(items)
@@ -37,6 +37,21 @@ class GildedRoseTest(unittest.TestCase):
         for item_o, item_n in zip(items_ori, items_ans):
             self.assertEqual(item_o.quality, item_n.quality)
 
-        
+    def test_Conjured(self):
+        items = [Item("Conjured", 0, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality_new()
+        self.assertEqual(items[0].quality, 0)
+
+        items = [Item("Conjured", -1, 10)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality_new()
+        self.assertEqual(items[0].quality, 6)
+
+        items = [Item("Conjured", 1, 10)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality_new()
+        self.assertEqual(items[0].quality, 8)
+
 if __name__ == '__main__':
     unittest.main()
